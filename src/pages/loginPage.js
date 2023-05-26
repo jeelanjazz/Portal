@@ -43,11 +43,6 @@ export default function LoginPage(){
                 // ERR_BAD_REQUEST
             } else if( err.code === 'ERR_BAD_REQUEST')
                 setErrors({...errors,custom_error:'Invalid credentials!'})
-
-            //   if(err.response.data.error.message ==='EMAIL_EXISTS'){
-            //      setErrors({...errors,custom_error:'Already this email has been registered!'})
-            //   } else if(String(err.response.data.error.message).includes('WEAK_PASSWORD'))
-            //      setErrors({...errors,custom_error:'Password should be at least 6 characters!'})
            }).finally(()=>{
               setloading(false)
            })

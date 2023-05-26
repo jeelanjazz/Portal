@@ -2,7 +2,6 @@ import { useNavigate, Navigate } from "react-router-dom";
 import NavBar from "../components/NavBar"; 
 import { logout, isAuthenticated } from "../services/Auth";
 
-
 export default function DashboardPage(){
     const navigate =useNavigate();
     const logoutUser = ()=>{
