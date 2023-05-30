@@ -1,4 +1,9 @@
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate,Link } from "react-router-dom";
+import { useState } from 'react'
+
+import './home.css'
+
+// import { useState } from 'react'
 import NavBar from "../components/NavBar"; 
 import { logout, isAuthenticated } from "../services/Auth";
 
@@ -8,22 +13,70 @@ export default function DashboardPage(){
         logout();
         navigate('/login');
     }
-    if (!isAuthenticated()){
+    
+    const initialStateErrors = {
+        empId:{required:false}
+     };
+     const [errors,setErrors] = useState(initialStateErrors)
+
+     const [setloading] = useState (false)
+     const handleSubmit = (event)=>{
+        event.preventDefault();
+        let errors = initialStateErrors;
+        let loginerror = false;
+        if (inputs.empId === '') {
+           errors.empId.required =true;
+           loginerror = true;
+        }
+        setErrors({...errors})
+        if(!loginerror){
+            setloading(true)
+        }
+    }
+
+        const [inputs,setInputs] = useState({
+            empId:"",
+         })
+         const handleInput = (event)=>{
+            setInputs({...inputs,[event.target.name]:event.target.value})
+         }
+         
+         if (!isAuthenticated()){
         // redirect page
         return <Navigate to="/login"/>
      }
-
+    
     return(
         <div>
             <NavBar logoutUser={logoutUser}/>
-        <main role="main" className="container mt-5">
+
+            <section className="login-block">
             <div className="container">
-              <div className="text-center mt-5">
-                <h3>Dashboard page</h3>
-                <p className="text-bold " >Hi Unnamed user, your Firebase ID is %localID%</p>
-              </div>
-            </div>
-        </main>
-        </div>
-    )
-}
+                <div className="row ">
+                    <div className="col login-sec">
+                        <h2 className="text-center">Sensiple Employee Portal</h2>
+                        <form onSubmit = {handleSubmit} className="login-form" action="">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputEmail1" className="text-uppercase">Employee ID</label>
+                            <input type="empId"  className="form-control" onChange={handleInput}  name="empId"  id="" placeholder="Enter your Id" />
+                            {errors.empId.required?
+                                    (<span className="text-danger" >
+                                        Id is required.
+                                    </span>):null
+                                 } 
+                                 <br/>
+                                 <p align= 'center'>
+                                 <Link to ='/checkIn'><input type="submit" className="btn btn-Login"  value="Check In"/><br/></Link>
+                                 <br/>
+                                 <input type="submit" className="btn btn-Login"  value="Check Out"/><br/><Link to ='/register'></Link>
+                                 <br/> <input type="submit" className="btn btn-Login"  value="Details"/><Link to ='/register'></Link>
+                                 </p>
+                        </div>
+                        </form>
+                        </div>
+                        </div>
+                        </div>
+                        </section>
+                        </div>
+    )         
+ }
