@@ -9,4 +9,3 @@ export default function CheckIn() {
               <><h1>Check In Successfully....</h1></>
        )
 }
-
